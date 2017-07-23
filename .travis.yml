@@ -171,13 +171,13 @@ script:
 # as the main library, so we cannot stage them to the same directory
 # here we specify the temporary lib dir as a path to look for the main library
   - 'if [ "$python" == "1" ]; then
-      bjam -j3 warnings-as-errors=on crypto=$crypto debug-iterators=on picker-debugging=on invariant-checks=full $toolset variant=$variant link=shared install location=./lib;
+      bjam -j3 warnings-as-errors=on crypto=$crypto debug-iterators=on picker-debugging=on invariant-checks=full $toolset variant=$variant link=shared install location=./lib install-dependencies=on;
     fi'
 
 # a binary built with sanitizer does not interact well with python
   - cd bindings/python
   - 'if [[ "$python" == "1" ]]; then
-      bjam -j3 warnings-as-errors=on crypto=$crypto debug-iterators=on picker-debugging=on invariant-checks=full $toolset variant=$variant stage_module libtorrent-link=shared install-type=LIB dll-path=../../lib &&
+      bjam -j3 warnings-as-errors=on crypto=$crypto debug-iterators=on picker-debugging=on invariant-checks=full $toolset variant=$variant stage_module libtorrent-link=shared install-dependencies=on install-type=LIB dll-path=../../lib &&
       LD_LIBRARY_PATH=../../lib DYLD_LIBRARY_PATH=../../lib python test.py;
     fi'
   - cd ../..;
@@ -197,7 +197,7 @@ script:
       export CC=gcc-5 &&
       export CXXFLAGS="-Werror -Wno-deprecated-declarations" &&
       ./configure --enable-debug --enable-encryption --enable-examples --enable-tests --enable-python-binding &&
-      make -j2 check;
+      LD_LIBRARY_PATH=$BOOST_ROOT/stage/lib make -j2 check;
     fi'
 
   - ccache --show-stats

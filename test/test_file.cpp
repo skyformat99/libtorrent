@@ -410,7 +410,8 @@ std::tuple<int, bool> current_directory_caps()
 	error_code ec;
 	DWORD dw_maximum_component_length;
 	DWORD dw_file_system_flags;
-	if (GetVolumeInformation(nullptr, nullptr, 0, nullptr
+	if (GetVolumeInformation(convert_to_native_path_string(current_working_directory()).c_str()
+		, nullptr, 0, nullptr
 		, &dw_maximum_component_length, &dw_file_system_flags, nullptr, 0) == 0)
 	{
 		ec.assign(GetLastError(), system_category());

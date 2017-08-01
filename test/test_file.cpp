@@ -415,7 +415,7 @@ std::tuple<int, bool> current_directory_caps()
 		ec.assign(GetLastError(), system_category());
 		std::printf("GetVolumeInformation: [%s] %s\n"
 			, ec.category().name(), ec.message().c_str());
-		throw std::runtime_error(ec.message();
+		throw std::runtime_error(ec.message());
 	}
 	int const maximum_component_length = int(dw_maximum_component_length);
 	bool const support_hard_links = ((dw_file_system_flags & FILE_SUPPORTS_HARD_LINKS) != 0);
@@ -459,7 +459,7 @@ TORRENT_TEST(unc_tests)
 	bool support_hard_links;
 	std::tie(maximum_component_length, support_hard_links) = current_directory_caps();
 
-	std::cout << "max file path component length: " << maximum_component_ength << "\n"
+	std::cout << "max file path component length: " << maximum_component_length << "\n"
 		<< "support hard links: " << (support_hard_links?"yes":"no") << "\n";
 
 	std::string long_component_name;

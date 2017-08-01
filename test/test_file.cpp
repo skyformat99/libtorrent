@@ -410,11 +410,12 @@ std::tuple<int, bool> current_directory_caps()
 	error_code ec;
 	DWORD dw_maximum_component_length;
 	DWORD dw_file_system_flags;
-	if (!GetVolumeInformationA(nullptr, nullptr, 0, nullptr, &dw_maximum_component_length, &dw_file_system_flags, nullptr, 0))
+	if (GetVolumeInformation(nullptr, nullptr, 0, nullptr
+		, &dw_maximum_component_length, &dw_file_system_flags, nullptr, 0) == 0)
 	{
 		ec.assign(GetLastError(), system_category());
-		std::printf("GetVolumeInformation: [%s] %s\n"
-			, ec.category().name(), ec.message().c_str());
+		std::printf("GetVolumeInformation: [%s : %d] %s\n"
+			, ec.category().name(), ec.value(), ec.message().c_str());
 		throw std::runtime_error(ec.message());
 	}
 	int const maximum_component_length = int(dw_maximum_component_length);

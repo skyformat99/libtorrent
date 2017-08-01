@@ -164,16 +164,12 @@ namespace libtorrent {
 
 	native_path_string convert_to_native_path_string(std::string const& path)
 	{
-#ifdef TORRENT_WINDOWS
 #if TORRENT_USE_UNC_PATHS
 		// UNC paths must be absolute
 		// network paths are already UNC paths
 		std::string prepared_path = complete(path);
 		if (prepared_path.substr(0,2) != "\\\\")
 			prepared_path = "\\\\?\\" + prepared_path;
-#else
-		std::string prepared_path = path;
-#endif
 		std::replace(prepared_path.begin(), prepared_path.end(), '/', '\\');
 
 		return convert_to_wstring(prepared_path);

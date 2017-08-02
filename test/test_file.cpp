@@ -415,7 +415,8 @@ std::tuple<int, bool> current_directory_caps()
 		, &dw_maximum_component_length, &dw_file_system_flags, nullptr, 0) == 0)
 	{
 		ec.assign(GetLastError(), system_category());
-		std::printf("GetVolumeInformation: [%s : %d] %s\n"
+		std::printf("GetVolumeInformation: \"%s\" [%s : %d] %s\n"
+			, convert_to_native_path_string(current_working_directory() + "\\").c_str()
 			, ec.category().name(), ec.value(), ec.message().c_str());
 		throw std::runtime_error(ec.message());
 	}
